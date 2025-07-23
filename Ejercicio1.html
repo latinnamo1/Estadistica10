@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1: Análisis de Ventas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .concept {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .highlight {
+            background-color: #fff9c4;
+            padding: 3px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .chart-box {
+            width: 48%;
+            min-width: 300px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .chart-box {
+                width: 100%;
+            }
+        }
+        .solution {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-left: 4px solid #4caf50;
+            margin: 15px 0;
+        }
+        .section-title {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 1: Análisis de Ventas en una Tienda Online</h1>
+        
+        <h2>Datos Originales</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Método de Pago</th>
+                    <th>Monto de la compra (miles de COP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Tarjeta Crédito</td><td>150</td></tr>
+                <tr><td>PSE</td><td>85</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>210</td></tr>
+                <tr><td>Ffectivo</td><td>50</td></tr>
+                <tr><td>PSE</td><td>120</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>300</td></tr>
+                <tr><td>PSE</td><td>95</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>180</td></tr>
+                <tr><td>Ffectivo</td><td>75</td></tr>
+                <tr><td>PSE</td><td>110</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>250</td></tr>
+                <tr><td>PSE</td><td>80</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>190</td></tr>
+                <tr><td>Ffectivo</td><td>60</td></tr>
+                <tr><td>PSE</td><td>130</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>280</td></tr>
+                <tr><td>PSE</td><td>100</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>165</td></tr>
+                <tr><td>Ffectivo</td><td>55</td></tr>
+                <tr><td>PSE</td><td>115</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>220</td></tr>
+                <tr><td>PSE</td><td>90</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>175</td></tr>
+                <tr><td>Ffectivo</td><td>70</td></tr>
+                <tr><td>PSE</td><td>125</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>290</td></tr>
+                <tr><td>PSE</td><td>105</td></tr>
+                <tr><td>Tarjeta Crédito</td><td>200</td></tr>
+                <tr><td>Ffectivo</td><td>65</td></tr>
+                <tr><td>PSE</td><td>140</td></tr>
+            </tbody>
+        </table>
+        <p>Total de ventas: 30</p>
+    </div>
+
+    <!-- Punto 1: Variables y conceptos estadísticos -->
+    <div class="container">
+        <h2>1) Variables y conceptos estadísticos</h2>
+        
+        <div class="concept">
+            <h3>a) Identificación y clasificación de variables</h3>
+            <p><strong>Variable 1: Método de Pago</strong></p>
+            <p>Tipo: <span class="highlight">Cualitativa nominal</span></p>
+            <p>Explicación: Esta variable representa categorías sin orden intrínseco. Los posibles valores son: Tarjeta Crédito, PSE, Ffectivo.</p>
+            
+            <p><strong>Variable 2: Monto de la compra</strong></p>
+            <p>Tipo: <span class="highlight">Cuantitativa continua</span></p>
+            <p>Explicación: Esta variable representa valores numéricos medibles que pueden tomar cualquier valor dentro de un rango (en miles de COP).</p>
+        </div>
+        
+        <div class="concept">
+            <h3>b) Datos en cada variable</h3>
+            <p><strong>Método de Pago:</strong></p>
+            <ul>
+                <li>Tarjeta Crédito: 12 ocurrencias</li>
+                <li>PSE: 12 ocurrencias</li>
+                <li>Ffectivo: 6 ocurrencias</li>
+            </ul>
+            
+            <p><strong>Monto de la compra:</strong></p>
+            <p>Valores: 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 140, 150, 165, 175, 180, 190, 200, 210, 220, 250, 280, 290, 300 (en miles de COP)</p>
+        </div>
+    </div>
+
+    <!-- Punto 2: Tablas de Frecuencia y Contingencia -->
+    <div class="container">
+        <h2>2) Tablas de Frecuencia y de Contingencia</h2>
+        
+        <div class="concept">
+            <h3>a) Tabla de frecuencia para Método de Pago</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Método de Pago</th>
+                        <th>Frecuencia Absoluta (f)</th>
+                        <th>Frecuencia Relativa (fr)</th>
+                        <th>Frecuencia Porcentual (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Tarjeta Crédito</td><td>12</td><td>0.400</td><td>40.00%</td></tr>
+                    <tr><td>PSE</td><td>12</td><td>0.400</td><td>40.00%</td></tr>
+                    <tr><td>Ffectivo</td><td>6</td><td>0.200</td><td>20.00%</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>30</strong></td><td><strong>1.000</strong></td><td><strong>100.00%</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="concept">
+            <h3>b) Tabla de frecuencia para Monto de la compra (agrupada)</h3>
+            <p>Fórmula de Sturges: k = 1 + 3.322·log<sub>10</sub>(n) = 1 + 3.322·log<sub>10</sub>(30) ≈ 5.9 → 6 intervalos</p>
+            <p>Rango: 300 - 50 = 250</p>
+            <p>Amplitud: Rango / k = 250 / 6 ≈ 41.67 → <span class="highlight">Redondeado a 42</span></p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Intervalo</th>
+                        <th>Marca de Clase</th>
+                        <th>f</th>
+                        <th>fr</th>
+                        <th>f%</th>
+                        <th>F</th>
+                        <th>F%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>[50 - 92)</td><td>71</td><td>9</td><td>0.300</td><td>30.00%</td><td>9</td><td>30.00%</td></tr>
+                    <tr><td>[92 - 134)</td><td>113</td><td>8</td><td>0.267</td><td>26.67%</td><td>17</td><td>56.67%</td></tr>
+                    <tr><td>[134 - 176)</td><td>155</td><td>4</td><td>0.133</td><td>13.33%</td><td>21</td><td>70.00%</td></tr>
+                    <tr><td>[176 - 218)</td><td>197</td><td>4</td><td>0.133</td><td>13.33%</td><td>25</td><td>83.33%</td></tr>
+                    <tr><td>[218 - 260)</td><td>239</td><td>2</td><td>0.067</td><td>6.67%</td><td>27</td><td>90.00%</td></tr>
+                    <tr><td>[260 - 302)</td><td>281</td><td>3</td><td>0.100</td><td>10.00%</td><td>30</td><td>100.00%</td></tr>
+                    <tr><td><strong>Total</strong></td><td>-</td><td><strong>30</strong></td><td><strong>1.000</strong></td><td><strong>100.00%</strong></td><td>-</td><td>-</td></tr>
+                </tbody>
+            </table>
+            <p>Leyenda: f = frecuencia absoluta, fr = frecuencia relativa, f% = frecuencia porcentual, F = frecuencia absoluta acumulada, F% = frecuencia relativa acumulada porcentual</p>
+        </div>
+        
+        <div class="concept">
+            <h3>c) Tabla de contingencia</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Método / Monto</th>
+                        <th>[50-92)</th>
+                        <th>[92-134)</th>
+                        <th>[134-176)</th>
+                        <th>[176-218)</th>
+                        <th>[218-260)</th>
+                        <th>[260-302)</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Tarjeta Crédito</td><td>0</td><td>0</td><td>3</td><td>4</td><td>2</td><td>3</td><td>12</td></tr>
+                    <tr><td>PSE</td><td>3</td><td>8</td><td>1</td><td>0</td><td>0</td><td>0</td><td>12</td></tr>
+                    <tr><td>Ffectivo</td><td>6</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>6</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>9</strong></td><td><strong>8</strong></td><td><strong>4</strong></td><td><strong>4</strong></td><td><strong>2</strong></td><td><strong>3</strong></td><td><strong>30</strong></td></tr>
+                </tbody>
+            </table>
+            
+            <div class="solution">
+                <p><strong>¿Qué método de pago es más común para compras superiores a 200 mil COP?</strong></p>
+                <p>Compras superiores a 200 mil COP corresponden a los intervalos [218-260) y [260-302).</p>
+                <p>En estas categorías:</p>
+                <ul>
+                    <li>Tarjeta Crédito: 2 + 3 = 5 compras</li>
+                    <li>PSE: 0 compras</li>
+                    <li>Ffectivo: 0 compras</li>
+                </ul>
+                <p><strong>Conclusión:</strong> El método de pago más común para compras superiores a 200 mil COP es la Tarjeta Crédito.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Punto 3: Medidas de Tendencia Central y Posición -->
+    <div class="container">
+        <h2>3) Medidas de Tendencia Central y Posición</h2>
+        
+        <div class="concept">
+            <h3>a) Media, mediana y moda del Monto de la compra</h3>
+            <p><strong>Media (promedio):</strong></p>
+            <p>Suma de todos los valores / n = 4280 / 30 = <span class="highlight">142.67 miles de COP</span></p>
+            <p><strong>Interpretación:</strong> El monto promedio de compra es de 142,670 COP.</p>
+            
+            <p><strong>Mediana:</strong></p>
+            <p>Valor central de los datos ordenados: posición (30+1)/2 = 15.5 → promedio de los valores 15° y 16°</p>
+            <p>Datos ordenados: ... 120, 125 ... → (120 + 125)/2 = <span class="highlight">122.5 miles de COP</span></p>
+            <p><strong>Interpretación:</strong> El 50% de las compras son menores o iguales a 122,500 COP y el otro 50% son mayores.</p>
+            
+            <p><strong>Moda:</strong></p>
+            <p>No hay valores repetidos → <span class="highlight">No hay moda</span></p>
+            <p><strong>Interpretación:</strong> Todos los montos de compra son diferentes, no hay un valor que se repita más que otros.</p>
+        </div>
+        
+        <div class="concept">
+            <h3>b) Cuartiles (Q1 y Q3)</h3>
+            <p><strong>Primer cuartil (Q1):</strong> Posición (30+1)/4 = 7.75 → valor entre 7° y 8° dato</p>
+            <p>Datos ordenados: 80, 85 → Q1 = 80 + 0.75*(85-80) = <span class="highlight">83.75 miles de COP</span></p>
+            
+            <p><strong>Tercer cuartil (Q3):</strong> Posición 3*(30+1)/4 = 23.25 → valor entre 23° y 24° dato</p>
+            <p>Datos ordenados: 190, 200 → Q3 = 190 + 0.25*(200-190) = <span class="highlight">192.5 miles de COP</span></p>
+            
+            <p><strong>Interpretación de Q3:</strong> El 75% de las compras son menores o iguales a 192,500 COP.</p>
+        </div>
+        
+        <div class="concept">
+            <h3>c) Percentiles (P20 y P80)</h3>
+            <p><strong>Percentil 20 (P20):</strong> Posición 20*(30+1)/100 = 6.2 → valor entre 6° y 7° dato</p>
+            <p>Datos ordenados: 75, 80 → P20 = 75 + 0.2*(80-75) = <span class="highlight">76 miles de COP</span></p>
+            
+            <p><strong>Percentil 80 (P80):</strong> Posición 80*(30+1)/100 = 24.8 → valor entre 24° y 25° dato</p>
+            <p>Datos ordenados: 200, 210 → P80 = 200 + 0.8*(210-200) = <span class="highlight">208 miles de COP</span></p>
+            
+            <p><strong>Interpretación de P80:</strong> El 80% de las compras son menores o iguales a 208,000 COP.</p>
+        </div>
+    </div>
+
+    <!-- Punto 4: Gráficos Estadísticos -->
+    <div class="container">
+        <h2>4) Gráficos Estadísticos</h2>
+        
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>a) Diagrama de sectores (Método de Pago)</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+            
+            <div class="chart-box">
+                <h3>b) Diagrama de barras (Método de Pago)</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+            
+            <div class="chart-box">
+                <h3>c) Histograma (Monto de compra)</h3>
+                <canvas id="histogram"></canvas>
+            </div>
+            
+            <div class="chart-box">
+                <h3>d) Polígono de frecuencia acumulada</h3>
+                <canvas id="polygonChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="concept">
+            <h3>e) Diagrama de cajas (Boxplot)</h3>
+            <div class="chart-box" style="width: 100%;">
+                <canvas id="boxPlot"></canvas>
+            </div>
+            <p><strong>Interpretación:</strong></p>
+            <ul>
+                <li>El monto mínimo es 50,000 COP y el máximo es 300,000 COP</li>
+                <li>El 50% central de los datos (caja) se encuentra entre 83,750 COP y 192,500 COP</li>
+                <li>La mediana (122,500 COP) está desplazada hacia el lado inferior de la caja</li>
+                <li>Existen varios valores atípicos (outliers) en el extremo superior (250, 280, 290, 300)</li>
+                <li>La distribución es asimétrica con cola más larga hacia valores altos</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Punto 5: Medidas de Dispersión -->
+    <div class="container">
+        <h2>5) Medidas de Dispersión</h2>
+        
+        <div class="concept">
+            <h3>a) Rango</h3>
+            <p>Rango = Valor máximo - Valor mínimo = 300 - 50 = <span class="highlight">250 miles de COP</span></p>
+        </div>
+        
+        <div class="concept">
+            <h3>b) Rango Intercuartílico (RIC)</h3>
+            <p>RIC = Q3 - Q1 = 192.5 - 83.75 = <span class="highlight">108.75 miles de COP</span></p>
+            <p><strong>Interpretación:</strong> Un RIC bajo indicaría que las compras de los clientes son más homogéneas, es decir, que la mayoría de los montos de compra son similares y se concentran en un rango estrecho.</p>
+        </div>
+        
+        <div class="concept">
+            <h3>c) Varianza (σ²) y Desviación Estándar (σ)</h3>
+            <p>Varianza (σ²) = Σ(xi - media)² / n = 153241.6 / 30 = <span class="highlight">5108.05</span></p>
+            <p>Desviación Estándar (σ) = √Varianza = √5108.05 ≈ <span class="highlight">71.47 miles de COP</span></p>
+            <p><strong>Interpretación:</strong> Una desviación estándar alta indica que los montos de compra están muy dispersos, es decir, hay mucha variabilidad en los montos que gastan los clientes.</p>
+        </div>
+        
+        <div class="concept">
+            <h3>d) Coeficiente de Variación (CV)</h3>
+            <p>CV = (Desviación Estándar / Media) × 100 = (71.47 / 142.67) × 100 ≈ <span class="highlight">50.09%</span></p>
+            <p><strong>Interpretación:</strong> Un coeficiente de variación bajo indicaría que los montos de compra son relativamente homogéneos en comparación con el valor promedio. En este caso, un CV del 50.09% indica una dispersión moderada-alta.</p>
+        </div>
+    </div>
+
+    <script>
+        // Gráfico de sectores (torta)
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Tarjeta Crédito (40%)', 'PSE (40%)', 'Ffectivo (20%)'],
+                datasets: [{
+                    data: [12, 12, 6],
+                    backgroundColor: ['#3498db', '#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} (${ctx.parsed}%)` } }
+                }
+            }
+        });
+
+        // Gráfico de barras
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Tarjeta Crédito', 'PSE', 'Ffectivo'],
+                datasets: [{
+                    label: 'Frecuencia Absoluta',
+                    data: [12, 12, 6],
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Frecuencia' } } }
+            }
+        });
+
+        // Histograma
+        const histCtx = document.getElementById('histogram').getContext('2d');
+        new Chart(histCtx, {
+            type: 'bar',
+            data: {
+                labels: ['[50-92)', '[92-134)', '[134-176)', '[176-218)', '[218-260)', '[260-302)'],
+                datasets: [{
+                    label: 'Frecuencia',
+                    data: [9, 8, 4, 4, 2, 3],
+                    backgroundColor: '#9b59b6'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { 
+                    y: { beginAtZero: true, title: { display: true, text: 'Frecuencia' } },
+                    x: { title: { display: true, text: 'Monto (miles de COP)' } }
+                }
+            }
+        });
+
+        // Polígono de frecuencia acumulada
+        const polyCtx = document.getElementById('polygonChart').getContext('2d');
+        new Chart(polyCtx, {
+            type: 'line',
+            data: {
+                labels: [71, 113, 155, 197, 239, 281],
+                datasets: [{
+                    label: 'Frecuencia Acumulada',
+                    data: [9, 17, 21, 25, 27, 30],
+                    borderColor: '#e67e22',
+                    backgroundColor: 'rgba(230, 126, 34, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { 
+                    y: { beginAtZero: true, title: { display: true, text: 'Frecuencia Acumulada' } },
+                    x: { title: { display: true, text: 'Marca de Clase' } }
+                }
+            }
+        });
+
+        // Diagrama de cajas
+        const boxCtx = document.getElementById('boxPlot').getContext('2d');
+        new Chart(boxCtx, {
+            type: 'boxplot',
+            data: {
+                labels: ['Monto de Compra'],
+                datasets: [{
+                    label: 'Distribución de montos',
+                    backgroundColor: 'rgba(52, 152, 219, 0.5)',
+                    borderColor: '#3498db',
+                    borderWidth: 1,
+                    outlierColor: '#e74c3c',
+                    padding: 10,
+                    itemRadius: 0,
+                    data: [[
+                        50,   // min
+                        83.75, // q1
+                        122.5, // mediana
+                        192.5, // q3
+                        300,  // max
+                        // Valores atípicos: 250, 280, 290, 300 (pero 300 es máximo)
+                        250, 280, 290
+                    ]]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Miles de COP' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
